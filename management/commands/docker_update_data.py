@@ -30,14 +30,14 @@ class Command(loaddata.Command):
             json_list_filtered = list(filter(should_add_record, json_list))
 
             if not json_list_filtered:
-                print(f"skip {file_name}")
+                print('skip %s' % file_name)
 
                 continue
 
             # Write the updated JSON file
             file_dir_and_name, file_ext = os.path.splitext(file_name)
 
-            file_name_temp = f"{file_dir_and_name}_temp{file_ext}"
+            file_name_temp = '%s_temp_%s' % (file_dir_and_name, file_ext,)
 
             with open(file_name_temp, 'w', encoding='utf-8') as json_file_temp:
                 json.dump(json_list_filtered, json_file_temp)
