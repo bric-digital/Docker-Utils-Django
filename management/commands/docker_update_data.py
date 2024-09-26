@@ -44,7 +44,7 @@ class Command(loaddata.Command):
 
             # Pass the request to the actual loaddata (parent functionality)
             # args[0] = file_name_temp
-            super().handle(file_name_temp, **options)
+            super().handle(file_name_temp, **options) # pylint: disable=missing-super-argument
 
             # You can choose to not delete the file so that you can see what was added to your records
             os.remove(file_name_temp)
