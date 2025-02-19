@@ -30,7 +30,7 @@ class Command(loaddata.Command):
             json_list_filtered = list(filter(should_add_record, json_list))
 
             if not json_list_filtered:
-                print('skip %s' % file_name)
+                print('Skip %s...' % file_name)
 
                 continue
 
