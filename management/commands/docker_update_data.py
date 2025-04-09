@@ -3,11 +3,13 @@
 # Source: https://stackoverflow.com/a/72405135
 
 import json
+import logging
 import os
 
 from django.core.management.commands import loaddata
 from django.apps import apps
 
+logger = logging.getLogger(__name__) # pylint: disable=invalid-name
 
 def should_add_record(record):
     arr = record['model'].split('.')
@@ -30,7 +32,12 @@ class Command(loaddata.Command):
             json_list_filtered = list(filter(should_add_record, json_list))
 
             if not json_list_filtered:
-                print('Skip %s...' % file_name)
+                root_logger = logging.getLogger('')
+
+                if options['verbosity'] > 0:
+                    root_logger.setLevel(logging.INFO)
+
+                logger.info('Skip %s...', file_name)
 
                 continue
 
