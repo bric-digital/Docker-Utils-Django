@@ -7,12 +7,10 @@
     <a role="button" href="{% add_preserved_filters add_url is_popup to_field %}" class="addlink">
       {% blocktranslate with cl.opts.verbose_name as name %}Add {{ name }}{% endblocktranslate %}
     </a>
-
-    <a role="button" href="#" class="addlink">
-        {% blocktranslate with cl.opts.verbose_name as name %}Import{% endblocktranslate %}
-      </a>
+  </li>
+  <li>
+    {% docker_utils_add_import_button %}
   </li>
 
-  {% docker_util_admin_list_tools %}
   {% endif %}
 {% endblock %}
