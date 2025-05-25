@@ -9,7 +9,7 @@ from django.http import HttpResponse
 from django.utils.text import slugify
 
 class PortableModelAdmin(admin.ModelAdmin):
-    def portable_model_export_items(self, request, queryset): # pylint: disable=unused-argument
+    def portable_model_export_items(self, request, queryset): # pylint: disable=unused-argument, no-self-use
         all_exported_items = []
 
         filename = None
