@@ -6,7 +6,6 @@ import json
 import logging
 import os
 
-from django.core.exceptions import ObjectDoesNotExist
 from django.core.management.commands import loaddata
 from django.apps import apps
 
@@ -21,13 +20,6 @@ def should_add_record(record):
         return not model_class.objects.filter(id=record['pk'],).exists()
 
     return True
-
-    # try:
-    #    exists = model_class.objects.get_by_natural_key(**(record['fields']))
-    # except ObjectDoesNotExist:
-    #    return True
-    #
-    # return False
 
 class Command(loaddata.Command):
     def handle(self, *args, **options):

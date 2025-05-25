@@ -1,0 +1,23 @@
+<a role="button" id="docker_utils_admin_import_button" href="#" class="addlink">Import</a>
+<form action="{% url 'docker_utils_import_objects' %}" method="POST" id="docker_utils_admin_import_button_form" enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type="file" name="import_file" style="display: none;" id="docker_utils_admin_import_button_file_field" />
+    <input type="hidden" name="import_file_type" value="{{ docker_utils_item_type }}" />
+    <input type="hidden" name="import_file_next" value="{{ docker_utils_import_file_next }}" />
+</form>
+
+<script>
+    (function () {
+        const $ = django.jQuery
+
+        $('#docker_utils_admin_import_button_file_field').on('change', function(eventObj) {
+            $('#docker_utils_admin_import_button_form').submit()
+        })
+
+        $('#docker_utils_admin_import_button').click(function(eventObj) {
+            eventObj.preventDefault()
+
+            $('#docker_utils_admin_import_button_file_field').click()
+        })
+    }());
+</script>
