@@ -8,11 +8,11 @@ from django.http import HttpResponseRedirect, HttpResponseServerError
 
 def import_objects(request): # pylint: disable=too-many-branches
     if request.method == 'POST': # pylint: disable=too-many-nested-blocks
-        file = request.FILES.get('import_file', None)
+        import_file = request.FILES.get('import_file', None)
         file_type = request.POST.get('import_file_type', None)
         redirect_to = request.POST.get('import_file_next', None)
 
-        if None in (file, file_type):
+        if None in (import_file, file_type):
             messages.add_message(request, messages.ERROR, 'Unable to import objects - malformed request.')
         else:
             messages_added = 0
@@ -21,7 +21,7 @@ def import_objects(request): # pylint: disable=too-many-branches
                 try:
                     docker_module = importlib.import_module('.docker_api', package=app)
 
-                    import_messages = docker_module.import_objects(file_type, file)
+                    import_messages = docker_module.import_objects(file_type, import_file)
 
                     if import_messages is not None:
                         for message in import_messages:
