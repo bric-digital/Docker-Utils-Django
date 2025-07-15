@@ -46,7 +46,7 @@ def get_model_admin(admin_site, model):
     try:
         return admin_site._registry[model] # pylint: disable=protected-access
     except KeyError as exc:
-        raise Exception(f"The model {model.__name__} is not registered.") from exc
+        raise Exception(f"The model {model.__name__} is not registered.") from exc # pylint: disable=broad-exception-raised
 
 def reset_and_send_password(modeladmin, request, queryset): # pylint: disable=unused-argument
     for user in queryset:
