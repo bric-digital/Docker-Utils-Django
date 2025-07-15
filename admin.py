@@ -4,8 +4,13 @@ import importlib
 import json
 
 from django.conf import settings
-from django.contrib import admin
+from django.contrib import admin, messages
+from django.contrib.admin.sites import site as default_site
+from django.contrib.auth import get_user_model
+from django.core.mail import send_mail
 from django.http import HttpResponse
+from django.template.loader import render_to_string
+from django.utils.crypto import get_random_string
 from django.utils.text import slugify
 
 class PortableModelAdmin(admin.ModelAdmin):
@@ -36,3 +41,37 @@ class PortableModelAdmin(admin.ModelAdmin):
         response.headers['Content-Disposition'] = 'attachment; filename=%s' % filename
 
         return response
+
+def reset_and_send_password(modeladmin, request, queryset): # pylint: disable=unused-argument
+    for user in queryset:
+        if user.email in (None, ''):
+            messages.add_message(request, messages.ERROR, 'Unable to send password to "%s". No e-mail address set.' % user)
+        else:
+            password = get_random_string(16)
+
+            context = {
+                'user': user,
+                'hostname': settings.ALLOWED_HOSTS[0],
+                'site_url': 'https://%s/' % settings.ALLOWED_HOSTS[0],
+                'admin_name': settings.ADMINS[0][0],
+                'password': password,
+            }
+
+            subject = render_to_string('docker_utils/new_password_subject.txt', context)
+            body = render_to_string('docker_utils/new_password_body.txt', context)
+
+            from_address = settings.ADMINS[0][1]
+
+            send_mail(subject, body, from_address, [user.email])
+
+            user.set_password(password)
+            user.save()
+
+            messages.add_message(request, messages.INFO, 'Sent new random password to "%s".' % user)
+
+reset_and_send_password.short_description = 'Reset and send user password'
+
+user_admin = default_site.get_model_admin(get_user_model())
+
+user_admin.actions = list(user_admin.actions)
+user_admin.actions.append(reset_and_send_password)
