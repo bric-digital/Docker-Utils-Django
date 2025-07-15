@@ -1,5 +1,7 @@
 # pylint: disable=line-too-long
 
+from future.utils import raise_from
+
 import importlib
 import json
 
@@ -46,7 +48,7 @@ def get_model_admin(admin_site, model):
     try:
         return admin_site._registry[model] # pylint: disable=protected-access
     except KeyError as exc:
-        raise Exception('The model %s is not registered.' % model.__name__) from exc # pylint: disable=broad-exception-raised
+        raise_from(Exception('The model %s is not registered.' % model.__name__), exc)
 
 def reset_and_send_password(modeladmin, request, queryset): # pylint: disable=unused-argument
     for user in queryset:
