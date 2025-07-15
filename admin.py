@@ -43,9 +43,9 @@ class PortableModelAdmin(admin.ModelAdmin):
 
         return response
 
-def get_model_admin(admin_site, model): # pylint: disable=protected-access
+def get_model_admin(admin_site, model):
     try:
-        return admin_site._registry[model]
+        return admin_site._registry[model] # pylint: disable=protected-access
     except KeyError as exc:
         raise NotRegistered(f"The model {model.__name__} is not registered.") from exc
 
