@@ -1,9 +1,9 @@
 # pylint: disable=line-too-long
 
-from future.utils import raise_from
-
 import importlib
 import json
+
+from future.utils import raise_from
 
 from django.conf import settings
 from django.contrib import admin, messages
@@ -79,7 +79,7 @@ def reset_and_send_password(modeladmin, request, queryset): # pylint: disable=un
 
 reset_and_send_password.short_description = 'Reset and send user password'
 
-user_admin = get_model_admin(default_site, get_user_model())
+user_admin = get_model_admin(default_site, get_user_model()) # pylint: disable=invalid-name
 
 user_admin.actions = list(user_admin.actions)
 user_admin.actions.append(reset_and_send_password)
