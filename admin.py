@@ -5,7 +5,6 @@ import json
 
 from django.conf import settings
 from django.contrib import admin, messages
-from django.contrib.admin.exceptions import NotRegistered
 from django.contrib.admin.sites import site as default_site
 from django.contrib.auth import get_user_model
 from django.core.mail import send_mail
@@ -47,7 +46,7 @@ def get_model_admin(admin_site, model):
     try:
         return admin_site._registry[model] # pylint: disable=protected-access
     except KeyError as exc:
-        raise NotRegistered(f"The model {model.__name__} is not registered.") from exc
+        raise Exception(f"The model {model.__name__} is not registered.") from exc
 
 def reset_and_send_password(modeladmin, request, queryset): # pylint: disable=unused-argument
     for user in queryset:
