@@ -44,7 +44,7 @@ class PortableModelAdmin(admin.ModelAdmin):
 
         return response
 
-def get_model_admin(admin_site, model):
+def get_model_admin(admin_site, model): # pylint: disable=inconsistent-return-statements
     try:
         return admin_site._registry[model] # pylint: disable=protected-access
     except KeyError as exc:
