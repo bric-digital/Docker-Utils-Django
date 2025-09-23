@@ -3,7 +3,7 @@
 import importlib
 import json
 
-from future.utils import raise_from
+import six
 
 from django.conf import settings
 from django.contrib import admin, messages
@@ -48,7 +48,7 @@ def get_model_admin(admin_site, model): # pylint: disable=inconsistent-return-st
     try:
         return admin_site._registry[model] # pylint: disable=protected-access
     except KeyError as exc:
-        raise_from(Exception('The model %s is not registered.' % model.__name__), exc)
+        six.raise_from(Exception('The model %s is not registered.' % model.__name__), exc)
 
 def reset_and_send_password(modeladmin, request, queryset): # pylint: disable=unused-argument
     for user in queryset:
