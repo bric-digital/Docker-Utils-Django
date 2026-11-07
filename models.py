@@ -1,4 +1,4 @@
-# pylinst: disable=line-too-long
+# pylint: disable=line-too-long
 
 from django.conf import settings
 from django.core.checks import Warning, register # pylint: disable=redefined-builtin
