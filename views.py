@@ -3,9 +3,11 @@
 import importlib
 
 from django.conf import settings
+from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib import messages
 from django.http import HttpResponseRedirect, HttpResponseServerError
 
+@staff_member_required
 def import_objects(request): # pylint: disable=too-many-branches
     if request.method == 'POST': # pylint: disable=too-many-nested-blocks
         import_file = request.FILES.get('import_file', None)
